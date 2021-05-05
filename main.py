@@ -1,19 +1,33 @@
 from bokeh.plotting import figure, show, output_file
+import pandas
 
-x = [1, 2, 3, 4, 5]
-y = [4, 6, 2, 4, 3]
+# Read csv file
+df = pandas.read_csv('cars.csv')
+
+car = df['Car']
+hp = df['Horsepower']
 
 output_file('index.html')
 
 # Add plot
 p = figure(
-  title='simple example',
-  x_axis_label = 'X Axis',
-  y_axis_label = 'Y Axis'
+  y_range=car,
+  plot_width=800,
+  plot_height=600,
+  title='Cars With Top Horsepower',
+  x_axis_label = 'Horsepower',
+  tools='pan, box_select, zoom_in, zoom_out, save, reset'
 )
 
 # Render glyph
-p.line(x, y, legend_label='Test', line_width=3)
+p.hbar(
+  y=car,
+  right=hp,
+  left=0,
+  height=0.4,
+  color='orange',
+  fill_alpha=0.5
+)
 
 # Show results
 show(p)
